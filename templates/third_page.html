@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Poll</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #17202A, #1C2833);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            background-color: black(255, 255, 255, 0.7); /* Transparent white background */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px #ccc;
+            max-width: 600px;
+            position: relative;
+            z-index: 2;
+            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 80vh; /* Limit the height to 80% of the viewport height */
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            color: #ccc;
+        }
+
+        input[type="text"],
+        input[type="datetime-local"] {
+            background-color: #f2f2f2;
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #options {
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #04f4fc;
+        }
+
+        #pollId {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Poll creation form -->
+    <div class="container">
+        <h1>Create Poll</h1>
+        <form action="{{ url_for('third_page') }}" method="post">
+            <label for="question">Question or Title:</label><br>
+            <input type="text" id="question" name="question" placeholder="Enter your question or title" required><br>
+
+            <div id="options">
+                <label for="option1">Option 1:</label>
+                <input type="text" id="option1" name="option1" placeholder="Enter option 1" required><br>
+            </div>
+
+            <button type="button" onclick="addOption()">Add Option</button>
+            <button type="button" onclick="removeOption()">Remove Option</button><br>
+
+            <label for="start_time">Start Time:</label><br>
+            <input type="datetime-local" id="start_time" name="start_time" required><br>
+
+            <label for="end_time">End Time:</label><br>
+            <input type="datetime-local" id="end_time" name="end_time" required><br>
+
+            <input type="radio" id="public" name="is_public" value="public" checked>
+            <label for="public">Public</label>
+
+            <input type="radio" id="private" name="is_public" value="private">
+            <label for="private">Private</label><br><br>
+
+            <button type="submit">Create Poll</button>
+        </form>
+    </div>
+
+    <!-- JavaScript functions for adding/removing options -->
+    <script>
+        let optionCount = 2;
+
+        function addOption() {
+            var optionsDiv = document.getElementById("options");
+            if (optionCount <= 10) {
+                var label = document.createElement("label");
+                label.setAttribute("for", "option" + optionCount);
+                label.textContent = "Option " + optionCount + ":";
+                optionsDiv.appendChild(label);
+
+                var input = document.createElement("input");
+                input.type = "text";
+                input.id = "option" + optionCount;
+                input.name = "option" + optionCount;
+                input.placeholder = "Enter option " + optionCount;
+                input.required = true;
+                optionsDiv.appendChild(input);
+
+                optionsDiv.appendChild(document.createElement("br"));
+                optionCount++;
+            } else {
+                alert('You can add a maximum of 10 options.');
+            }
+        }
+
+        function removeOption() {
+            var optionsDiv = document.getElementById("options");
+            if (optionCount > 2) {
+                optionsDiv.removeChild(optionsDiv.lastElementChild); // remove br
+                optionsDiv.removeChild(optionsDiv.lastElementChild); // remove input
+                optionsDiv.removeChild(optionsDiv.lastElementChild); // remove label
+                optionCount--;
+            }
+        }
+    </script>
+</body>
+</html>

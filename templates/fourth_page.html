@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Give Your Vote</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #1f4037, #99f2c8);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            max-height: 80vh; /* Limit the height to make space for scrolling */
+            overflow-y: auto; /* Add vertical scrolling if content overflows */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .options-container {
+            max-height: 300px; /* Limit the height of the options container */
+            overflow-y: auto; /* Add vertical scrolling to the options container */
+            width: 100%;
+        }
+
+        .option {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        input[type="radio"] + label {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+        }
+
+        input[type="radio"]:checked + label {
+            background: #04f4fc;
+            color: white;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .poll-id {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .countdown {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #ff0000;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function confirmVote(event) {
+            event.preventDefault(); // Prevent form submission
+            const selectedOption = document.querySelector('input[name="vote_option"]:checked');
+            if (selectedOption) {
+                const confirmation = confirm(`Are you sure you want to vote for "${selectedOption.value}"?`);
+                if (confirmation) {
+                    document.getElementById('voteForm').submit(); // Submit the form if confirmed
+                }
+            } else {
+                alert("Please select an option to vote.");
+            }
+        }
+
+        function startCountdown(endTime) {
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = new Date(endTime).getTime() - now;
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('countdown').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+                if (distance < 0) {
+                    clearInterval(interval);
+                    document.getElementById('countdown').innerHTML = "EXPIRED";
+                    document.getElementById('voteForm').style.display = 'none'; // Hide the voting form if expired
+                    document.getElementById('expiredMessage').style.display = 'block'; // Show the expired message
+                }
+            }
+
+            const interval = setInterval(updateCountdown, 1000);
+        }
+    </script>
+</head>
+<body onload="startCountdown('{{ poll_data.end_time.isoformat() }}')">
+    <!-- Content Section -->
+    <div class="container">
+        <h1>Give Your Vote</h1>
+        <form id="voteForm" action="{{ url_for('vote') }}" method="post" onsubmit="confirmVote(event)">
+            <input type="hidden" name="poll_id" value="{{ poll_data['_id'] }}">
+            <h2>{{ poll_data.question }}</h2>
+            <div class="options-container">
+                {% for option in poll_data.options %}
+                <div class="option">
+                    <input type="radio" id="{{ option }}" name="vote_option" value="{{ option }}">
+                    <label for="{{ option }}">{{ option }}</label>
+                </div>
+                {% endfor %}
+            </div>
+            <button type="submit">Vote</button>
+            <div class="poll-id">Poll ID: {{ poll_data['_id'] }}</div>
+            <div id="countdown" class="countdown"></div>
+        </form>
+        <div id="expiredMessage" style="display: none;">
+            <h2>This poll has expired.</h2>
+        </div>
+        <a href="{{ url_for('second_page') }}" class="back-button">Back to Home</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Polls</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #17202A, #1C2833); /* Gradient background */
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.8); /* Transparent black background */
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .poll-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .poll-item {
+            background-color: #171717; /* Dark background for poll items */
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .poll-item:hover {
+            transform: scale(1.02);
+        }
+
+        .poll-question {
+            flex: 1;
+            text-align: left;
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        .poll-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #252525;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #ff8a00;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #252525;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .back-link:hover {
+            background-color: #ff8a00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Polls</h1>
+        <div class="poll-list">
+            {% for poll in user_polls %}
+            <div class="poll-item">
+                <span class="poll-question">{{ poll.question }}</span>
+                <div class="poll-actions">
+                    <a href="{{ url_for('edit_poll', poll_id=poll['_id']) }}" class="button">Edit</a>
+                    <form action="{{ url_for('delete_poll') }}" method="post" style="display:inline;">
+                        <input type="hidden" name="poll_id" value="{{ poll['_id'] }}">
+                        <button type="submit" class="button">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <a href="{{ url_for('second_page') }}" class="back-link">Back to Home</a>
+    </div>
+</body>
+</html>

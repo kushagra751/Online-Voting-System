@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poll Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #17202A, #1C2833); /* Background similar to login and signup pages */
+            color: #fff; /* Text color */
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7); /* Dark background for the container */
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            position: relative; /* Added for positioning the button */
+        }
+
+        h1 {
+            color: #fff; /* Heading color */
+            margin-bottom: 20px;
+            font-size: 2em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .back-link {
+            position: absolute; /* Positioned the button */
+            top: 10px; /* Adjust as necessary */
+            right: 10px; /* Adjust as necessary */
+            padding: 10px 20px;
+            background-color: #252525;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            background-color: #ff8a00;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-item {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.2); /* Light background for each option */
+            padding: 10px;
+            border-radius: 25px;
+            color: #d3d3d3;
+            box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+        }
+
+        .option {
+            font-weight: bold;
+        }
+
+        .votes {
+            color: #fff; /* Vote count color */
+        }
+
+        .high-votes {
+            color: green;
+        }
+
+        .low-votes {
+            color: red;
+        }
+
+        .total-votes {
+            background-color: black;
+            color: white;
+            padding: 10px;
+            border-radius: 25px;
+            margin-top: 20px;
+        }
+
+        .poll-id {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+            border: 1px solid #666; /* Border */
+            padding: 10px; /* Padding */
+            border-radius: 25px; /* Border radius */
+        }
+
+        canvas {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Poll Results</h1>
+        <a href="{{ url_for('second_page') }}" class="back-link">Back to Home</a>
+        <h2>{{ poll_data.question }}</h2>
+        <ul class="options-list">
+            {% for option in poll_data.options %}
+                {% set votes_count = votes.get(option, 0) %}
+                <li class="option-item">
+                    <span class="option">{{ option }}</span>
+                    <span class="votes {% if votes_count >= total_votes / 2 %} high-votes {% else %} low-votes {% endif %}">
+                        {{ votes_count }} votes ({{ (votes_count / total_votes * 100) | round(2) }}%)
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+        <p class="total-votes">Total votes: {{ total_votes }}</p>
+        <canvas id="pollChart" width="400" height="200"></canvas>
+        <div class="poll-id">Poll ID: {{ poll_data['_id'] }}</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('pollChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [{% for option in poll_data.options %}'{{ option }}', {% endfor %}],
+                datasets: [{
+                    label: 'Votes',
+                    data: [{% for option in poll_data.options %}{{ votes.get(option, 0) }}, {% endfor %}],
+                    backgroundColor: [{% for option in poll_data.options %}{% if votes.get(option, 0) >= total_votes / 2 %}'rgba(75, 192, 192, 0.5)',{% else %}'rgba(255, 99, 132, 0.5)',{% endif %}{% endfor %}],
+                    borderColor: [{% for option in poll_data.options %}{% if votes.get(option, 0) >= total_votes / 2 %}'rgba(75, 192, 192, 1)',{% else %}'rgba(255, 99, 132, 1)',{% endif %}{% endfor %}],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

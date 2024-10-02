@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Poll</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #00c6ff, #0072ff); /* Gradient background */
+            display: flex;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #171717;
+            border-radius: 25px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            transition: .4s ease-in-out;
+        }
+
+        .main-content:hover {
+            transform: scale(1.05);
+            border: 1px solid black;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .button, .profile-button {
+            display: block;
+            width: 80%;
+            padding: 10px 20px;
+            margin: 20px 0;
+            background-color: #252525;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .button:hover, .profile-button:hover {
+            background-color: black;
+            transform: scale(1.05);
+        }
+
+        .public-polls {
+            width: 100%;
+            max-width: 600px;
+            background-color: #1C1C1C;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .public-polls h2 {
+            margin-top: 0;
+            color: #fff;
+        }
+
+        .public-polls ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .public-polls li {
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .public-polls li a {
+            color: #04f4fc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .public-polls li a:hover {
+            color: #ff8a00;
+        }
+
+        .timer {
+            background-color: #333;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        .profile-button {
+            width: 60%;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <h1>Welcome to Online Poll Creator</h1>
+            <div class="public-polls">
+                <h2>Public Polls</h2>
+                <ul>
+                    {% for poll in public_polls %}
+                        <li>
+                            <a href="{{ url_for('fourth_page', poll_id=poll['_id']) }}">{{ poll['question'] }}</a>
+                            <span class="timer">{{ poll['time_left'] }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="sidebar">
+            <a href="{{ url_for('profile_page') }}" class="profile-button">Profile</a>
+            <a href="{{ url_for('guide_and_help') }}" class="profile-button">Guide and Help</a>
+            <a href="{{ url_for('third_page') }}" class="button">Make Poll</a>
+            <a href="{{ url_for('sixth_page') }}" class="button">Join Poll</a>
+            <a href="{{ url_for('manage_polls') }}" class="button">Manage Polls</a>
+        </div>
+    </div>
+</body>
+</html>

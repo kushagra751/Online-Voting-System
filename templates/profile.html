@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #171717, #171717); /* Same background as login page */
+            color: #fff;
+        }
+
+        .profile-container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 350px;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 3px solid #fff;
+        }
+
+        .profile-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .profile-buttons a, .profile-buttons button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #252525;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 16px;
+            box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+        }
+
+        .profile-buttons a:hover, .profile-buttons button:hover {
+            background-color: black;
+            color: white;
+        }
+
+        .profile-container h1 {
+            margin-bottom: 10px;
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .profile-container p {
+            color: #ddd;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <img src="https://img-cdn.pixlr.com/image-generator/history/667cacb6f5270051ff6bfd93/e947cf8f-d8ff-4826-a1b1-733cc9c694f4/preview.webp" alt="Profile Picture" class="profile-pic">
+    <h1>{{ user.username }}</h1>
+    <div class="profile-buttons">
+        <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+        <a href="{{ url_for('change_password') }}">Change Password</a>
+        <a href="{{ url_for('joined_history') }}">Join Poll History</a>
+        <a href="{{ url_for('created_history') }}">Created Poll History</a>
+        <a href="{{ url_for('second_page') }}">Back To Home</a>
+        <button onclick="location.href='{{ url_for('logout') }}'">Log Out</button>
+    </div>
+</div>
+
+</body>
+</html>

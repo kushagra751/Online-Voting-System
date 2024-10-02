@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Polls</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Public Polls</h1>
+        <div class="poll-list">
+            {% for poll in public_polls %}
+                <div class="poll">
+                    <h2>{{ poll['question'] }}</h2>
+                    <ul>
+                        {% for option in poll['options'] %}
+                            <li>{{ option }}</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{{ url_for('fourth_page', poll_id=poll['_id']) }}">Vote</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
