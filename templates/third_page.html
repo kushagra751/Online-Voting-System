@@ -13,13 +13,28 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #17202A, #1C2833);
             overflow: hidden;
             position: relative;
         }
 
+        .bg-video-hero {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-video-hero video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .container {
-            background-color: black(255, 255, 255, 0.7); /* Transparent white background */
+            background-color: rgba(0, 0, 0, 0.7); /* Transparent white background */
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 2px 5px #ccc;
@@ -31,14 +46,14 @@
         }
 
         h1 {
-            color: #fff;
+            color: #ffffff;
             margin-bottom: 20px;
             text-align: center;
         }
 
         label {
             font-weight: bold;
-            color: #ccc;
+            color: #ca981b;
         }
 
         input[type="text"],
@@ -81,6 +96,28 @@
     </style>
 </head>
 <body>
+    <!-- Background Video Section -->
+    <section class="section hero">
+        <div data-poster-url="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-poster-00001.jpg" 
+             data-video-urls="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-transcode.mp4, https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-transcode.webm" 
+             data-autoplay="true" 
+             data-loop="true" 
+             data-wf-ignore="true" 
+             class="bg-video-hero w-background-video w-background-video-atom">
+            <video id="0678c42a-ee55-08a5-93ba-2e456178d84f-video" 
+                   autoplay 
+                   loop 
+                   style="background-image:url('https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-poster-00001.jpg')" 
+                   muted 
+                   playsinline 
+                   data-wf-ignore="true" 
+                   data-object-fit="cover">
+                <source src="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-transcode.mp4" data-wf-ignore="true"/>
+                <source src="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-transcode.webm" data-wf-ignore="true"/>
+            </video>
+        </div>
+    </section>
+
     <!-- Poll creation form -->
     <div class="container">
         <h1>Create Poll</h1>

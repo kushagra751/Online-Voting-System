@@ -13,17 +13,35 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #171717, #171717); /* Same background as login page */
+            overflow: hidden;
             color: #fff;
+            position: relative;
+        }
+
+        /* Background video styles */
+        .bg-video-hero {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .bg-video-hero video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .profile-container {
             text-align: center;
-            background: rgba(0, 0, 0, 0.7);
+            background-color: rgba(23, 23, 23, 0.4); /* Increased transparency for the form background */
             padding: 30px;
             border-radius: 25px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             width: 350px;
+            z-index: 1; /* Ensure the profile container appears above the video */
         }
 
         .profile-pic {
@@ -75,6 +93,32 @@
 </head>
 <body>
 
+<!-- Background Video Section -->
+<section class="section hero">
+    <div data-poster-url="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-poster-00001.jpg" 
+         data-video-urls="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-transcode.mp4,
+                          https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-transcode.webm" 
+         data-autoplay="true" 
+         data-loop="true" 
+         data-wf-ignore="true" 
+         class="bg-video-hero w-background-video w-background-video-atom">
+        <video id="0678c42a-ee55-08a5-93ba-2e456178d84f-video" 
+               autoplay="" 
+               loop="" 
+               style="background-image:url('https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-poster-00001.jpg')" 
+               muted="" 
+               playsinline="" 
+               data-wf-ignore="true" 
+               data-object-fit="cover">
+            <source src="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-transcode.mp4" 
+                    data-wf-ignore="true"/>
+            <source src="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-transcode.webm" 
+                    data-wf-ignore="true"/>
+        </video>
+    </div>
+</section>
+
+<!-- Profile Content -->
 <div class="profile-container">
     <img src="https://img-cdn.pixlr.com/image-generator/history/667cacb6f5270051ff6bfd93/e947cf8f-d8ff-4826-a1b1-733cc9c694f4/preview.webp" alt="Profile Picture" class="profile-pic">
     <h1>{{ user.username }}</h1>

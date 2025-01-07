@@ -5,14 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Your Poll</title>
     <style>
+        /* Body and Video Styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #00c6ff, #0072ff); /* Gradient background */
             display: flex;
             overflow: hidden;
             color: #fff;
+        }
+
+        .bg-video-hero {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .bg-video-hero video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .container {
@@ -21,6 +36,7 @@
             min-height: 100vh;
         }
 
+        /* Main Content Styles */
         .main-content {
             flex: 1;
             display: flex;
@@ -28,10 +44,12 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background-color: #171717;
+            background-color: rgba(23, 23, 23, 0.9);
             border-radius: 25px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             transition: .4s ease-in-out;
+            backdrop-filter: blur(5px);
+            margin: 20px;
         }
 
         .main-content:hover {
@@ -39,9 +57,10 @@
             border: 1px solid black;
         }
 
+        /* Sidebar Styles */
         .sidebar {
             width: 250px;
-            background-color: #333;
+            background-color: rgba(23, 23, 23, 0.4); /* Increased transparency for the form background */
             color: white;
             display: flex;
             flex-direction: column;
@@ -49,14 +68,22 @@
             padding-top: 20px;
             padding-bottom: 20px;
             box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 40px; /* Rounded corners */
         }
 
+        /* Heading Animation */
         h1 {
             color: #fff;
             margin-bottom: 20px;
             text-align: center;
+            font-size: 3em;
+            font-weight: 600;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+            animation: fadeInUp 2s ease-out;
         }
 
+        /* Button and Links Styles */
         .button, .profile-button {
             display: block;
             width: 80%;
@@ -68,6 +95,7 @@
             border-radius: 5px;
             text-align: center;
             transition: background-color 0.3s, transform 0.3s;
+            animation: slideInUp 1s ease-out;
         }
 
         .button:hover, .profile-button:hover {
@@ -75,19 +103,23 @@
             transform: scale(1.05);
         }
 
+        /* Public Polls Styles */
         .public-polls {
             width: 100%;
             max-width: 600px;
-            background-color: #1C1C1C;
+            background-color: rgba(28, 28, 28, 0.9);
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 2.5s ease-out;
         }
 
         .public-polls h2 {
             margin-top: 0;
             color: #fff;
+            animation: fadeInLeft 1.5s ease-out;
         }
 
         .public-polls ul {
@@ -129,9 +161,59 @@
         .button {
             width: 70%;
         }
+
+        /* Keyframe Animations */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="bg-video-hero w-background-video w-background-video-atom">
+        <video autoplay loop muted playsinline style="background-image:url('https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light Leak_Overlay_Blue_1920x1080-2-poster-00001.jpg')" data-object-fit="cover">
+            <source src="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light Leak_Overlay_Blue_1920x1080-2-transcode.mp4" type="video/mp4">
+            <source src="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light Leak_Overlay_Blue_1920x1080-2-transcode.webm" type="video/webm">
+        </video>
+    </div>
+
     <div class="container">
         <div class="main-content">
             <h1>Welcome to Online Poll Creator</h1>
@@ -141,7 +223,7 @@
                     {% for poll in public_polls %}
                         <li>
                             <a href="{{ url_for('fourth_page', poll_id=poll['_id']) }}">{{ poll['question'] }}</a>
-                            <span class="timer">{{ poll['time_left'] }}</span>
+                            <span class="timer" id="timer_{{ poll['_id'] }}"></span>
                         </li>
                     {% endfor %}
                 </ul>
@@ -155,5 +237,30 @@
             <a href="{{ url_for('manage_polls') }}" class="button">Manage Polls</a>
         </div>
     </div>
+
+    <script>
+        {% for poll in public_polls %}
+            var endTime = new Date("{{ poll.end_time.isoformat() }}").getTime();
+            var timerElement = document.getElementById('timer_{{ poll['_id'] }}');
+
+            function updateTimer() {
+                var currentTime = new Date().getTime();
+                var timeLeft = endTime - currentTime;
+
+                if (timeLeft <= 0) {
+                    timerElement.innerHTML = "Poll has ended";
+                } else {
+                    var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                    timerElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+                }
+            }
+
+            setInterval(updateTimer, 1000);  // Update the timer every second
+        {% endfor %}
+    </script>
 </body>
 </html>

@@ -4,18 +4,26 @@ import bcrypt
 from collections import Counter
 from bson import ObjectId
 from datetime import datetime
+import os
+from collections.abc import MutableMapping  # Correct import for Python 3.10+
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Set a secret key for session management
+app.secret_key = os.getenv('FLASK_SECRET_KEY', 'your_secret_key')  # Set a secret key for session management
 
 # MongoDB connection
-client = MongoClient('mongodb://localhost:27017/')  # Connect to MongoDB
+MONGO_URI = os.getenv('MONGODB_URI')  # Use environment variable
+if not MONGO_URI:
+    raise EnvironmentError("MONGODB_URI environment variable is not set")
+
+client = MongoClient(MONGO_URI)
+
 db = client['polls_database']  # Access 'polls_database' database
 users_collection = db['users']  # Access 'users' collection for storing user data
 polls_collection = db['polls']  # Access 'polls' collection for storing poll data
 votes_collection = db['votes']  # Access 'votes' collection for storing vote data
 polls_history_collection = db['polls_history']  # Access 'polls_history' collection for storing expired poll data
 reports_collection = db['reports']  # Access 'reports' collection for storing report data
+
 
 @app.route('/')
 def root():
@@ -308,4 +316,6 @@ def archive_expired_polls():
 
 if __name__ == '__main__':
     archive_expired_polls()
-    app.run(debug=True)  # Run the Flask application in debug mode
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
+

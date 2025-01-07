@@ -7,8 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #17202A, #1C2833); /* Background similar to login and signup pages */
-            color: #fff; /* Text color */
+            color: #fff;
             padding: 20px;
             text-align: center;
             display: flex;
@@ -20,19 +19,35 @@
             position: relative;
         }
 
+        /* Background video styles */
+        .bg-video-hero {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .bg-video-hero video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .container {
-            background: rgba(0, 0, 0, 0.7); /* Dark background for the container */
+            background-color: rgba(23, 23, 23, 0.4); /* Increased transparency for the form background */
             padding: 30px;
             border-radius: 25px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             max-width: 600px;
             width: 90%;
             text-align: center;
-            position: relative; /* Added for positioning the button */
+            position: relative;
         }
 
         h1 {
-            color: #fff; /* Heading color */
+            color: #fff;
             margin-bottom: 20px;
             font-size: 2em;
             text-transform: uppercase;
@@ -40,9 +55,9 @@
         }
 
         .back-link {
-            position: absolute; /* Positioned the button */
-            top: 10px; /* Adjust as necessary */
-            right: 10px; /* Adjust as necessary */
+            position: absolute;
+            top: 10px;
+            right: 10px;
             padding: 10px 20px;
             background-color: #252525;
             color: white;
@@ -72,7 +87,7 @@
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
-            background: rgba(255, 255, 255, 0.2); /* Light background for each option */
+            background: rgba(255, 255, 255, 0.2);
             padding: 10px;
             border-radius: 25px;
             color: #d3d3d3;
@@ -84,7 +99,7 @@
         }
 
         .votes {
-            color: #fff; /* Vote count color */
+            color: #fff;
         }
 
         .high-votes {
@@ -107,9 +122,9 @@
             font-size: 14px;
             color: #666;
             margin-top: 10px;
-            border: 1px solid #666; /* Border */
-            padding: 10px; /* Padding */
-            border-radius: 25px; /* Border radius */
+            border: 1px solid #666;
+            padding: 10px;
+            border-radius: 25px;
         }
 
         canvas {
@@ -118,6 +133,32 @@
     </style>
 </head>
 <body>
+    <!-- Background Video Section -->
+    <section class="section hero">
+        <div data-poster-url="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-poster-00001.jpg" 
+             data-video-urls="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-transcode.mp4,
+                              https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-transcode.webm" 
+             data-autoplay="true" 
+             data-loop="true" 
+             data-wf-ignore="true" 
+             class="bg-video-hero w-background-video w-background-video-atom">
+            <video id="0678c42a-ee55-08a5-93ba-2e456178d84f-video" 
+                   autoplay="" 
+                   loop="" 
+                   style="background-image:url('https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-poster-00001.jpg')" 
+                   muted="" 
+                   playsinline="" 
+                   data-wf-ignore="true" 
+                   data-object-fit="cover">
+                <source src="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-transcode.mp4" 
+                        data-wf-ignore="true"/>
+                <source src="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light%20Leak_Overlay_Blue_1920x1080-2-transcode.webm" 
+                        data-wf-ignore="true"/>
+            </video>
+        </div>
+    </section>
+
+    <!-- Content Section -->
     <div class="container">
         <h1>Poll Results</h1>
         <a href="{{ url_for('second_page') }}" class="back-link">Back to Home</a>

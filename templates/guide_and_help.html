@@ -5,23 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guide and Help</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* Ensure the body and html elements take full height */
+        html, body {
+            height: 100%;
             margin: 0;
-            padding: 20px;
-            background: linear-gradient(90deg, #171717, #171717);
-            color: #fff;
-            text-align: center;
+            padding: 0;
+            overflow: hidden; /* Prevent scrolling */
         }
 
+        /* Background video styles */
+        .bg-video-hero {
+            position: fixed; /* Fixed position to cover the entire screen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the video fills the viewport */
+            z-index: -1; /* Ensure it's behind the content */
+        }
+
+        /* Content container styles */
         .container {
-            background: black;
+            position: relative; /* Ensure content stays above the background */
+            z-index: 1;
+            background-color: rgba(23, 23, 23, 0.4); /* Increased transparency for the form background */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 800px;
             margin: 0 auto;
             color: #fff;
+            text-align: center;
+            height: 100%; /* Ensures the container is fully contained */
         }
 
         h1 {
@@ -40,19 +55,28 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Guide and Help</h1>
-        <h2>How to Create a Poll</h2>
-        <p>To create a poll, click on the "Make Poll" button on the sidebar. Fill in the poll question, options, start time, and end time. Select if the poll is public or private. Finally, click "Create Poll" to publish your poll.</p>
-        
-        <h2>How to Vote in a Poll</h2>
-        <p>To vote in a poll, go to the "Public Polls" section on the main page. Click on the poll question you want to vote on. Select your preferred option and click "Vote".</p>
 
-        <h2>How to Join a Poll</h2>
-        <p>To join a poll, click on the "Join Poll" button on the sidebar. Enter the Poll ID provided by the poll creator and click "Join Poll". You will be redirected to the voting page.</p>
+<!-- Background video section -->
+<video class="bg-video-hero" autoplay loop muted playsinline>
+    <source src="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light Leak_Overlay_Blue_1920x1080-2-transcode.mp4" />
+    <source src="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light Leak_Overlay_Blue_1920x1080-2-transcode.webm" />
+</video>
 
-        <h2>Need Help?</h2>
-        <p>If you need further assistance, please contact us at <span class="email">example@gmail.com</span>.</p>
-    </div>
+<!-- Main content -->
+<div class="container">
+    <h1>Guide and Help</h1>
+    <h2>How to Create a Poll</h2>
+    <p>To create a poll, click on the "Make Poll" button on the sidebar. Fill in the poll question, options, start time, and end time. Select if the poll is public or private. Finally, click "Create Poll" to publish your poll.</p>
+    
+    <h2>How to Vote in a Poll</h2>
+    <p>To vote in a poll, go to the "Public Polls" section on the main page. Click on the poll question you want to vote on. Select your preferred option and click "Vote".</p>
+
+    <h2>How to Join a Poll</h2>
+    <p>To join a poll, click on the "Join Poll" button on the sidebar. Enter the Poll ID provided by the poll creator and click "Join Poll". You will be redirected to the voting page.</p>
+
+    <h2>Need Help?</h2>
+    <p>If you need further assistance, please contact us at <span class="email">patidarkushagra4@gmail.com</span>.</p>
+</div>
+
 </body>
 </html>

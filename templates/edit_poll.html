@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Poll</title>
     <style>
+        /* Ensure the body and html take up the full height */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Background video section */
+        .section.hero {
+            position: fixed; /* Keeps the video fixed in place */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Sends the video behind the content */
+        }
+
+        .bg-video-hero video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the video covers the entire viewport */
+        }
+
+        /* Body container for content */
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -15,23 +40,29 @@
             background: linear-gradient(90deg, #e52e71, #ff8a00);
             color: #fff;
         }
+
+        /* The main container for the form */
         .container {
-            background: rgba(255, 255, 255, 0.8);
+            background-color: rgba(23, 23, 23, 0.4); /* Increased transparency for the form background */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
             text-align: center;
+            z-index: 1; /* Ensures content appears above the background */
         }
+
         .container h1 {
             color: #e52e71;
             margin-bottom: 20px;
         }
+
         .container label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
         }
+
         .container input {
             width: calc(100% - 10px);
             padding: 10px;
@@ -39,6 +70,7 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
+
         .container button {
             width: 100%;
             padding: 10px;
@@ -48,12 +80,30 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         .container button:hover {
             background-color: #ff8a00;
         }
     </style>
 </head>
 <body>
+    <!-- Background Video Section -->
+    <section class="section hero">
+        <div data-poster-url="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light Leak_Overlay_Blue_1920x1080-2-poster-00001.jpg" 
+             data-video-urls="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light Leak_Overlay_Blue_1920x1080-2-transcode.mp4,
+                              https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light Leak_Overlay_Blue_1920x1080-2-transcode.webm" 
+             data-autoplay="true" 
+             data-loop="true" 
+             data-wf-ignore="true" 
+             class="bg-video-hero w-background-video w-background-video-atom">
+            <video id="0678c42a-ee55-08a5-93ba-2e456178d84f-video" autoplay="" loop="" muted="" playsinline="" data-wf-ignore="true" data-object-fit="cover">
+                <source src="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light Leak_Overlay_Blue_1920x1080-2-transcode.mp4" data-wf-ignore="true"/>
+                <source src="https://cdn.prod.website-files.com/613a12c30cca8a557cef2768/66288db6f4435e10675b99c2_2168751_Light Leak_Overlay_Blue_1920x1080-2-transcode.webm" data-wf-ignore="true"/>
+            </video>
+        </div>
+    </section>
+
+    <!-- Main Content Container -->
     <div class="container">
         <h1>Edit Poll</h1>
         <form action="{{ url_for('edit_poll', poll_id=poll['_id']) }}" method="POST">
