@@ -84,7 +84,11 @@ def forgot_password():
 def second_page():
     """Render the second page with public polls."""
     current_time = datetime.now()
-    public_polls = list(polls_collection.find({'is_public': True, 'start_time': {'$lte': current_time}, 'end_time': {'$gte': current_time}}))  # Fetch only active public polls
+    public_polls = list(polls_collection.find({
+        'is_public': True,
+        'start_time': {'$lte': current_time},
+        'end_time': {'$gte': current_time}
+    }))  # Fetch only active public polls
     for poll in public_polls:
         poll['time_left'] = poll['end_time'] - current_time
     return render_template('second_page.html', public_polls=public_polls)
