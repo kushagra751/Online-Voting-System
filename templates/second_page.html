@@ -214,9 +214,11 @@
         </video>
     </div>
 
-        <div class="public-polls">
-            <h2>Public Polls</h2>
-            {% if public_polls %}
+    <div class="container">
+        <div class="main-content">
+            <h1>Welcome to Online Poll Creator</h1>
+            <div class="public-polls">
+                <h2>Public Polls</h2>
                 <ul>
                     {% for poll in public_polls %}
                         <li>
@@ -225,9 +227,7 @@
                         </li>
                     {% endfor %}
                 </ul>
-            {% else %}
-                <p>No public polls are available at the moment.</p>
-            {% endif %}
+            </div>
         </div>
 
         <div class="sidebar">
