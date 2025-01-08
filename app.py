@@ -12,7 +12,7 @@ app.secret_key = os.getenv('FLASK_SECRET_KEY', 'your_secret_key')  # Set a secre
 
 
 
-client = MongoClient("mongodb+srv://admin:admin123@cluster0.mongodb.net/polls_database?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://admin:admin123@cluster0.jtetl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 
 # MongoDB connection
 # MONGO_URI = os.getenv('MONGODB_URI')  # Use environment variable
