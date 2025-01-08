@@ -316,6 +316,6 @@ def archive_expired_polls():
 
 if __name__ == '__main__':
     archive_expired_polls()
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get('PORT', 5000))  # Default to 5000 if PORT is not set
+    app.run(host='0.0.0.0', port=port)  # Bind to 0.0.0.0 to make it accessible
 
