@@ -214,11 +214,9 @@
         </video>
     </div>
 
-    <div class="container">
-        <div class="main-content">
-            <h1>Welcome to Online Poll Creator</h1>
-            <div class="public-polls">
-                <h2>Public Polls</h2>
+        <div class="public-polls">
+            <h2>Public Polls</h2>
+            {% if public_polls %}
                 <ul>
                     {% for poll in public_polls %}
                         <li>
@@ -227,8 +225,11 @@
                         </li>
                     {% endfor %}
                 </ul>
-            </div>
+            {% else %}
+                <p>No public polls are available at the moment.</p>
+            {% endif %}
         </div>
+
         <div class="sidebar">
             <a href="{{ url_for('profile_page') }}" class="profile-button">Profile</a>
             <a href="{{ url_for('guide_and_help') }}" class="profile-button">Guide and Help</a>
