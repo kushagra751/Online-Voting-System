@@ -10,12 +10,16 @@ from collections.abc import MutableMapping  # Correct import for Python 3.10+
 app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'your_secret_key')  # Set a secret key for session management
 
-# MongoDB connection
-MONGO_URI = os.getenv('MONGODB_URI')  # Use environment variable
-if not MONGO_URI:
-    raise EnvironmentError("MONGODB_URI environment variable is not set")
 
-client = MongoClient(MONGO_URI)
+
+client = MongoClient("mongodb+srv://admin:admin123@cluster0.mongodb.net/polls_database?retryWrites=true&w=majority")
+
+# MongoDB connection
+# MONGO_URI = os.getenv('MONGODB_URI')  # Use environment variable
+# if not MONGO_URI:
+#     raise EnvironmentError("MONGODB_URI environment variable is not set")
+
+# client = MongoClient(MONGO_URI)
 
 db = client['polls_database']  # Access 'polls_database' database
 users_collection = db['users']  # Access 'users' collection for storing user data
