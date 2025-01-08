@@ -314,7 +314,6 @@ def archive_expired_polls():
         polls_history_collection.insert_one(poll)
         polls_collection.delete_one({'_id': poll['_id']})
 
-if __name__ == '_main_':
-    archive_expired_polls()
-    port = int(os.environ.get('PORT', 5000))
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port)
