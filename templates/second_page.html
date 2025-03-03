@@ -114,7 +114,11 @@
             margin-top: 20px;
             backdrop-filter: blur(5px);
             animation: fadeIn 2.5s ease-out;
+            display: block !important;  /* Ensure it's always visible */
+            opacity: 1;  /* Ensure it's not hidden */
+            visibility: visible;  /* Ensure it's not collapsed */
         }
+
 
         .public-polls h2 {
             margin-top: 0;
