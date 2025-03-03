@@ -10,16 +10,12 @@ from collections.abc import MutableMapping  # Correct import for Python 3.10+
 app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'your_secret_key')  # Set a secret key for session management
 
-
-
-client = MongoClient("mongodb+srv://admin:admin123@cluster0.jtetl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-
 # MongoDB connection
-# MONGO_URI = os.getenv('MONGODB_URI')  # Use environment variable
-# if not MONGO_URI:
-#     raise EnvironmentError("MONGODB_URI environment variable is not set")
+MONGO_URI = os.getenv('MONGODB_URI')  # Use environment variable
+if not MONGO_URI:
+    raise EnvironmentError("MONGODB_URI environment variable is not set")
 
-# client = MongoClient(MONGO_URI)
+client = MongoClient(MONGO_URI)
 
 db = client['polls_database']  # Access 'polls_database' database
 users_collection = db['users']  # Access 'users' collection for storing user data
@@ -83,14 +79,22 @@ def forgot_password():
 @app.route('/second_page')
 def second_page():
     """Render the second page with public polls."""
+    if 'username' not in session:
+        return redirect(url_for('login'))
+        
     current_time = datetime.now()
+    # Find all active public polls
     public_polls = list(polls_collection.find({
         'is_public': True,
         'start_time': {'$lte': current_time},
         'end_time': {'$gte': current_time}
-    }))  # Fetch only active public polls
+    }))
+    
+    # Convert ObjectId to string for JSON serialization
     for poll in public_polls:
-        poll['time_left'] = poll['end_time'] - current_time
+        poll['_id'] = str(poll['_id'])
+        poll['time_left'] = (poll['end_time'] - current_time).total_seconds()
+        
     return render_template('second_page.html', public_polls=public_polls)
 
 @app.route('/public_polls')
@@ -323,5 +327,6 @@ def archive_expired_polls():
         polls_collection.delete_one({'_id': poll['_id']})
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 10000))
+    archive_expired_polls()
+    port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
