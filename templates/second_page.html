@@ -114,11 +114,7 @@
             margin-top: 20px;
             backdrop-filter: blur(5px);
             animation: fadeIn 2.5s ease-out;
-            display: block !important;  /* Ensure it's always visible */
-            opacity: 1;  /* Ensure it's not hidden */
-            visibility: visible;  /* Ensure it's not collapsed */
         }
-
 
         .public-polls h2 {
             margin-top: 0;
@@ -227,13 +223,12 @@
                     {% for poll in public_polls %}
                         <li>
                             <a href="{{ url_for('fourth_page', poll_id=poll['_id']) }}">{{ poll['question'] }}</a>
-                            <span class="timer" id="timer_{{ poll['_id'] }}"></span>
+                            <span class="timer" id="timer_{{ poll["_id"] }}"></span>
                         </li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
-
         <div class="sidebar">
             <a href="{{ url_for('profile_page') }}" class="profile-button">Profile</a>
             <a href="{{ url_for('guide_and_help') }}" class="profile-button">Guide and Help</a>
@@ -245,26 +240,29 @@
 
     <script>
         {% for poll in public_polls %}
-            var endTime = new Date("{{ poll.end_time.isoformat() }}").getTime();
-            var timerElement = document.getElementById('timer_{{ poll['_id'] }}');
-
-            function updateTimer() {
-                var currentTime = new Date().getTime();
-                var timeLeft = endTime - currentTime;
-
-                if (timeLeft <= 0) {
-                    timerElement.innerHTML = "Poll has ended";
-                } else {
-                    var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-                    timerElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+            var endTime_{{ poll['_id'] }} = new Date().getTime() + ({{ poll['time_left'] }} * 1000);
+            
+            function updateTimer_{{ poll['_id'] }}() {
+                var now = new Date().getTime();
+                var timeLeft = endTime_{{ poll['_id'] }} - now;
+                
+                var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                
+                var timerElement = document.getElementById('timer_{{ poll["_id"] }}');
+                if (timerElement) {
+                    if (timeLeft > 0) {
+                        timerElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+                    } else {
+                        timerElement.innerHTML = "Expired";
+                    }
                 }
             }
-
-            setInterval(updateTimer, 1000);  // Update the timer every second
+            
+            updateTimer_{{ poll['_id'] }}();
+            setInterval(updateTimer_{{ poll['_id'] }}, 1000);
         {% endfor %}
     </script>
 </body>
