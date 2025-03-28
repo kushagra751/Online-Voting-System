@@ -18,6 +18,7 @@ Other Tools: [Add if applicable, e.g., Git for version control, any APIs, etc.]
 
 Installation
 Follow these steps to set up the project locally:
+
 1.Clone the Repository:
 git clone https://github.com/kushagra751/Online-Voting-System.git
 
