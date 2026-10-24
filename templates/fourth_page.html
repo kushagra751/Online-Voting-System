@@ -213,6 +213,7 @@
     <div class="container">
         <h1>Give Your Vote</h1>
         <form id="voteForm" action="{{ url_for('vote') }}" method="post" onsubmit="confirmVote(event)">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input type="hidden" name="poll_id" value="{{ poll_data['_id'] }}">
             <h2>{{ poll_data.question }}</h2>
             <div class="options-container">

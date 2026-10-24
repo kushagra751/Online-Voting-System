@@ -122,6 +122,7 @@
     <div class="container">
         <h1>Create Poll</h1>
         <form action="{{ url_for('third_page') }}" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <label for="question">Question or Title:</label><br>
             <input type="text" id="question" name="question" placeholder="Enter your question or title" required><br>
 
